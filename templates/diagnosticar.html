@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta Médica</title>
+    <title>Consulta Médica en Línea - Diagnóstico Rápido y Preciso | Consulta de Síntomas en Línea</title>
+    <meta name="description"
+        content="Consulta médica en línea para obtener un diagnóstico rápido y preciso. Seleccione sus síntomas y reciba recomendaciones de tratamiento inmediatas. Obtenga el mejor diagnóstico médico en línea con recomendaciones confiables de salud.">
+    <meta name="keywords"
+        content="consulta médica en línea, diagnóstico médico, síntomas, tratamiento, salud, fiebre, dolor de cabeza, tos, dolor abdominal, consulta médica gratis, consulta de salud en línea, diagnóstico rápido, atención médica en línea, consulta de salud, telemedicina, dificultad para respirar, mareo, náuseas, escalofríos, sudoración, dolor muscular, fatiga, erupción cutánea, congestión nasal, fiebre alta, dolor de oídos, dolor en las articulaciones">
+    <meta property="og:title" content="Consulta Médica en Línea - Diagnóstico Rápido y Preciso">
+    <meta property="og:description"
+        content="Consulta médica en línea para obtener un diagnóstico rápido y preciso. Seleccione sus síntomas y reciba recomendaciones de tratamiento inmediatas.">
+    <meta property="og:url" content="https://consulta-medica.onrender.com">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Consulta Médica en Línea - Diagnóstico Rápido y Preciso">
+    <meta name="twitter:description"
+        content="Obtenga un diagnóstico médico en línea rápido y preciso seleccionando sus síntomas.">
+    <link rel="canonical" href="https://consulta-medica.onrender.com">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
@@ -59,12 +73,15 @@
 
 <body>
     <div class="container">
-        <h2 class="text-center mb-4">Consulta Médica en Línea</h2>
+        <h1 class="text-center mb-4">Consulta Médica en Línea</h1>
+        <h2 class="text-center mb-4">Diagnóstico Rápido y Preciso</h2>
+        <p class="text-center">Seleccione sus síntomas para recibir un diagnóstico preliminar y recomendaciones de
+            tratamiento inmediato.</p>
         <form id="consultaForm">
             <div class="form-group">
                 <label for="sintomas">Seleccione sus síntomas:</label>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-sm-12 col-md-6">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="fiebre" id="sintoma1">
                             <label class="form-check-label" for="sintoma1">Fiebre</label>
@@ -94,35 +111,94 @@
                                 id="sintoma7">
                             <label class="form-check-label" for="sintoma7">Dificultad para respirar</label>
                         </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="tos con flema" id="sintoma8">
+                            <label class="form-check-label" for="sintoma8">Tos con flema</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="dolor en el pecho" id="sintoma17">
+                            <label class="form-check-label" for="sintoma17">Dolor en el pecho</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="erupción cutánea" id="sintoma18">
+                            <label class="form-check-label" for="sintoma18">Erupción cutánea</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="dolor muscular" id="sintoma13">
+                            <label class="form-check-label" for="sintoma13">Dolor muscular</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="dolor en las articulaciones"
+                                id="sintoma21">
+                            <label class="form-check-label" for="sintoma21">Dolor en las articulaciones</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="inflamación" id="sintoma22">
+                            <label class="form-check-label" for="sintoma22">Inflamación</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="frío" id="sintoma25">
+                            <label class="form-check-label" for="sintoma25">Frío</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="calor" id="sintoma26">
+                            <label class="form-check-label" for="sintoma26">Calor</label>
+                        </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-sm-12 col-md-6">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="mareo" id="sintoma8">
-                            <label class="form-check-label" for="sintoma8">Mareo</label>
+                            <input class="form-check-input" type="checkbox" value="mareo" id="sintoma9">
+                            <label class="form-check-label" for="sintoma9">Mareo</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="nauseas" id="sintoma9">
-                            <label class="form-check-label" for="sintoma9">Náuseas</label>
+                            <input class="form-check-input" type="checkbox" value="náuseas" id="sintoma10">
+                            <label class="form-check-label" for="sintoma10">Náuseas</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="escalofrios" id="sintoma10">
-                            <label class="form-check-label" for="sintoma10">Escalofríos</label>
+                            <input class="form-check-input" type="checkbox" value="escalofríos" id="sintoma11">
+                            <label class="form-check-label" for="sintoma11">Escalofríos</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="sudoracion" id="sintoma11">
-                            <label class="form-check-label" for="sintoma11">Sudoración</label>
+                            <input class="form-check-input" type="checkbox" value="sudoración" id="sintoma12">
+                            <label class="form-check-label" for="sintoma12">Sudoración</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="dolor muscular" id="sintoma12">
-                            <label class="form-check-label" for="sintoma12">Dolor muscular</label>
+                            <input class="form-check-input" type="checkbox" value="fatiga" id="sintoma14">
+                            <label class="form-check-label" for="sintoma14">Fatiga</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="fatiga" id="sintoma13">
-                            <label class="form-check-label" for="sintoma13">Fatiga</label>
+                            <input class="form-check-input" type="checkbox" value="congestión nasal" id="sintoma16">
+                            <label class="form-check-label" for="sintoma16">Congestión nasal</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="erupcion cutanea" id="sintoma14">
-                            <label class="form-check-label" for="sintoma14">Erupción cutánea</label>
+                            <input class="form-check-input" type="checkbox" value="dolor de oído" id="sintoma19">
+                            <label class="form-check-label" for="sintoma19">Dolor de oído</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="enrojecimiento en los ojos"
+                                id="sintoma20">
+                            <label class="form-check-label" for="sintoma20">Enrojecimiento en los ojos</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="visión borrosa" id="sintoma23">
+                            <label class="form-check-label" for="sintoma23">Visión borrosa</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="dificultad para concentrarse"
+                                id="sintoma24">
+                            <label class="form-check-label" for="sintoma24">Dificultad para concentrarse</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="sed" id="sintoma27">
+                            <label class="form-check-label" for="sintoma27">Sed</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="boca seca" id="sintoma28">
+                            <label class="form-check-label" for="sintoma28">Boca seca</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="deshidratación" id="sintoma29">
+                            <label class="form-check-label" for="sintoma29">Deshidratación</label>
                         </div>
                     </div>
                 </div>

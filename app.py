@@ -36,7 +36,12 @@ treatment_dict = {
     "amigdalitis": "Beber líquidos calientes, hacer gárgaras con agua salada, tomar analgésicos como Ibuprofeno, y usar antibióticos como Amoxicilina si es bacteriana.",
     "hipertension": "Cambios en el estilo de vida como reducción de sal en la dieta, ejercicio regular, evitar el estrés, y tomar medicación antihipertensiva como Enalapril o Losartán si es necesario.",
     "diabetes tipo 2": "Dieta equilibrada rica en fibra, ejercicio regular, monitoreo de glucosa, y medicamentos como Metformina para controlar los niveles de azúcar en sangre.",
-    "anemia": "Aumentar el consumo de alimentos ricos en hierro como carne roja y vegetales de hoja verde, y tomar suplementos de hierro como Sulfato ferroso si es necesario, recetados por un médico."
+    "anemia": "Aumentar el consumo de alimentos ricos en hierro como carne roja y vegetales de hoja verde, y tomar suplementos de hierro como Sulfato ferroso si es necesario, recetados por un médico.",
+    "frio": "Abrigarse adecuadamente, consumir bebidas calientes y mantener la temperatura corporal estable. Evitar la exposición prolongada al frío y buscar abrigo.",
+    "calor": "Mantenerse hidratado, usar ropa ligera y fresca, evitar la exposición directa al sol y descansar en lugares frescos. Utilizar ventiladores o aire acondicionado si es necesario.",
+    "deshidratacion": "Beber abundante agua, consumir bebidas con electrolitos como las soluciones de rehidratación oral, evitar el esfuerzo físico excesivo y descansar.",
+    "golpe de calor": "Buscar un lugar fresco, aplicar compresas frías en el cuerpo, beber agua lentamente y evitar la exposición al calor extremo. Si los síntomas empeoran, buscar atención médica inmediata.",
+    "hipotermia": "Llevar a la persona a un ambiente cálido, quitar la ropa mojada, abrigar con mantas y proporcionar bebidas calientes si la persona está consciente. Buscar atención médica de inmediato en casos graves."
 }
 
 
@@ -64,7 +69,12 @@ def generar_datos_medicos():
         "enrojecimiento picazon secrecion en los ojos",
         "dolor de garganta inflamacion de amigdalas dificultad para tragar",
         "dolor de cabeza vision borrosa mareo",
-        "fatiga piel palida dificultad para concentrarse"
+        "fatiga piel palida dificultad para concentrarse",
+        "escalofrios temblor frio",
+        "sudoracion excesiva calor",
+        "sed boca seca deshidratacion",
+        "mareo confusion golpe de calor",
+        "temblor piel palida hipotermia"
     ]
     diagnosticos = [
         "gripe",
@@ -86,7 +96,12 @@ def generar_datos_medicos():
         "conjuntivitis",
         "amigdalitis",
         "hipertension",
-        "anemia"
+        "anemia",
+        "frio",
+        "calor",
+        "deshidratacion",
+        "golpe de calor",
+        "hipotermia"
     ]
     data = {'sintomas': sintomas, 'diagnostico': diagnosticos}
     return pd.DataFrame(data)
@@ -118,10 +133,12 @@ else:
     vectorizer = joblib.load(VECTOR_FILE)
 
 
-@app.route('/diagnosticar', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
+def ui():
+    return render_template('diagnosticar.html')
+
+@app.route('/diagnosticar', methods=['POST'])
 def diagnosticar():
-    if request.method == 'GET':
-        return render_template('diagnosticar.html')
     try:
         data = request.json if request.is_json else request.form
         sintomas = data.get('sintomas', '')
