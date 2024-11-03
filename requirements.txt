@@ -1,6 +1,4 @@
 Flask
-pandas
-numpy
-joblib
-scikit-learn
+mysql-connector-python
 requests
+beautifulsoup4
