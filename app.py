@@ -1,11 +1,10 @@
 from flask import Flask, request, jsonify, render_template
+from sqlalchemy import create_engine, text
+from sqlalchemy.exc import SQLAlchemyError
 import os
 import requests
 from bs4 import BeautifulSoup
 import re
-import mysql.connector
-import psycopg2
-from psycopg2 import connect
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -13,40 +12,21 @@ load_dotenv()
 app = Flask(__name__)
 
 # Configuración de base de datos basada en el entorno
-db_connection = None
-cursor = None
+engine = None
 
 try:
     if os.getenv("FLASK_ENV") == "production":
-        # Conexión para PostgreSQL usando la URL en producción
-        db_connection = connect("postgresql://emanuel_allaria:ScwDEklhDwyHTbX0VYIqZk59WaWNjwLM@dpg-csjc9prtq21c73dbn2tg-a/consulta_medica")
-        print("Conexión a la base de datos PostgreSQL exitosa.")
+        # Conexión para PostgreSQL usando SQLAlchemy con pg8000
+        db_url = "postgresql+pg8000://emanuel_allaria:ScwDEklhDwyHTbX0VYIqZk59WaWNjwLM@dpg-csjc9prtq21c73dbn2tg-a/consulta_medica"
     else:
         # Conexión para MySQL en desarrollo
-        db_connection = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",
-            database="consulta_medica"
-        )
-        print("Conexión a la base de datos MySQL exitosa.")
+        db_url = "mysql+mysqlconnector://root:@localhost/consulta_medica"
 
-    cursor = db_connection.cursor()
-except (mysql.connector.Error, psycopg2.Error) as err:
+    # Crear el motor de conexión
+    engine = create_engine(db_url)
+    print("Conexión a la base de datos exitosa.")
+except SQLAlchemyError as err:
     print(f"Error al conectar a la base de datos: {err}")
-
-def obtener_datos_desde_bd():
-    """
-    Obtiene los datos de síntomas y diagnósticos desde la base de datos MySQL.
-    """
-    cursor.execute("SELECT nombre, sintomas FROM enfermedades")
-    rows = cursor.fetchall()
-    enfermedades = []
-    for row in rows:
-        nombre = row[0]
-        sintomas = row[1].lower().split(', ')
-        enfermedades.append({'nombre': nombre, 'sintomas': sintomas})
-    return enfermedades
 
 def obtener_descripcion_web(enfermedad):
     """
@@ -82,38 +62,65 @@ def obtener_descripcion_web(enfermedad):
         print(f"Error inesperado: {e}")
         return "Descripción no disponible."
 
+def obtener_datos_desde_bd():
+    """
+    Obtiene los datos de síntomas y diagnósticos desde la base de datos.
+    """
+    with engine.connect() as connection:
+        # Consulta los datos de las enfermedades y sus restricciones
+        result = connection.execute(text("""
+            SELECT e.nombre, e.sintomas, r.edad_minima, r.edad_maxima, r.genero
+            FROM enfermedades e
+            LEFT JOIN restricciones_enfermedades r ON e.id = r.enfermedad_id
+        """)).mappings()
+        
+        enfermedades = [
+            {
+                'nombre': row['nombre'],
+                'sintomas': row['sintomas'].lower().split(', '),
+                'edad_minima': row['edad_minima'],
+                'edad_maxima': row['edad_maxima'],
+                'genero': row['genero']
+            }
+            for row in result
+        ]
+    return enfermedades
+
 def obtener_tratamiento(diagnostico):
     """
     Obtiene el tratamiento asociado a un diagnóstico desde la base de datos.
     """
-    cursor.execute("SELECT tratamiento FROM enfermedades WHERE nombre = %s", (diagnostico,))
-    row = cursor.fetchone()
-    if row:
-        return row[0]
-    return "Tratamiento no disponible"
+    with engine.connect() as connection:
+        result = connection.execute(text("SELECT tratamiento FROM enfermedades WHERE nombre = :nombre"), {'nombre': diagnostico}).mappings()
+        row = result.fetchone()
+        return row['tratamiento'] if row else "Tratamiento no disponible"
 
 def obtener_lista_sintomas():
     """
     Obtiene todos los síntomas desde la tabla de síntomas.
     """
-    cursor.execute("SELECT nombre FROM sintomas")
-    rows = cursor.fetchall()
-    return [row[0].lower() for row in rows]
+    with engine.connect() as connection:
+        result = connection.execute(text("SELECT nombre FROM sintomas")).mappings()
+        return [row['nombre'].lower() for row in result]
 
 @app.route('/', methods=['GET'])
 def ui():
-    return render_template('diagnosticar.html')
+    with engine.connect() as connection:
+        result = connection.execute(text("SELECT nombre FROM sintomas ORDER BY nombre ASC")).mappings()
+        sintomas = [row['nombre'] for row in result]
+    return render_template('diagnosticar.html', sintomas=sintomas)
 
 @app.route('/diagnosticar', methods=['POST'])
 def diagnosticar():
     try:
         data = request.json if request.is_json else request.form
         sintomas_usuario = data.get('sintomas', '')
+        edad_usuario = int(data.get('edad', 0))
+        genero_usuario = data.get('genero', '').lower()
 
-        if not sintomas_usuario:
-            return jsonify({'error': 'Por favor, proporciona una lista de síntomas'}), 400
+        if not sintomas_usuario or not edad_usuario or not genero_usuario:
+            return jsonify({'error': 'Por favor, proporciona una lista de síntomas, edad y género'}), 400
 
-        # Transformar los síntomas ingresados en una lista de palabras clave
         lista_sintomas_usuario = sintomas_usuario.lower().split(', ')
         lista_sintomas_bd = obtener_lista_sintomas()
         sintomas_filtrados = [s for s in lista_sintomas_usuario if s in lista_sintomas_bd]
@@ -121,22 +128,28 @@ def diagnosticar():
         if not sintomas_filtrados:
             return jsonify({'error': 'Ningún síntoma proporcionado coincide con nuestra base de datos'}), 400
 
-        # Obtener datos desde la base de datos
         enfermedades = obtener_datos_desde_bd()
         mejor_coincidencia = None
         max_sintomas_encontrados = 0
 
-        # Buscar la enfermedad que mejor coincida con los síntomas proporcionados
         for enfermedad in enfermedades:
             sintomas_enfermedad = enfermedad['sintomas']
             sintomas_encontrados = len(set(sintomas_filtrados) & set(sintomas_enfermedad))
+            
+            # Verificar restricciones de edad y género en la tabla restricciones_enfermedades
             if sintomas_encontrados > max_sintomas_encontrados:
-                max_sintomas_encontrados = sintomas_encontrados
-                mejor_coincidencia = enfermedad
+                if (
+                    (enfermedad['edad_minima'] is None or edad_usuario >= enfermedad['edad_minima']) and
+                    (enfermedad['edad_maxima'] is None or edad_usuario <= enfermedad['edad_maxima']) and
+                    (enfermedad['genero'] == 'todos' or enfermedad['genero'] == genero_usuario)
+                ):
+                    max_sintomas_encontrados = sintomas_encontrados
+                    mejor_coincidencia = enfermedad
 
         if mejor_coincidencia:
             tratamiento = obtener_tratamiento(mejor_coincidencia['nombre'])
-            return jsonify({'diagnostico': mejor_coincidencia['nombre'], 'tratamiento': tratamiento, 'descripcion': obtener_descripcion_web(mejor_coincidencia['nombre'])})
+            descripcion = obtener_descripcion_web(mejor_coincidencia['nombre'])
+            return jsonify({'diagnostico': mejor_coincidencia['nombre'], 'tratamiento': tratamiento, 'descripcion': descripcion})
         else:
             return jsonify({'error': 'No se encontró ninguna enfermedad que coincida con los síntomas proporcionados'}), 400
     except Exception as e:

@@ -57,16 +57,31 @@
             border-color: #6a11cb;
         }
 
-        #resultado {
-            background-color: #f1f1f1;
-            padding: 20px;
-            border-radius: 10px;
-            color: #333;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        /* Nueva estructura para la lista de síntomas */
+        .symptoms-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .symptom-item {
+            flex: 0 0 48%;
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
         }
 
         .form-check-label {
             margin-left: 10px;
+        }
+
+        .personal-info {
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -78,140 +93,44 @@
         <p class="text-center">Seleccione sus síntomas para recibir un diagnóstico preliminar y recomendaciones de
             tratamiento inmediato.</p>
         <form id="consultaForm">
-            <div class="form-group">
-                <label for="sintomas">Seleccione sus síntomas:</label>
-                <div class="row">
-                    <div class="col-sm-12 col-md-6">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Fiebre" id="sintoma1">
-                            <label class="form-check-label" for="sintoma1">Fiebre</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Escalofríos" id="sintoma2">
-                            <label class="form-check-label" for="sintoma2">Escalofríos</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Dolor de cabeza" id="sintoma3">
-                            <label class="form-check-label" for="sintoma3">Dolor de cabeza</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Dolor muscular" id="sintoma4">
-                            <label class="form-check-label" for="sintoma4">Dolor muscular</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Fatiga" id="sintoma5">
-                            <label class="form-check-label" for="sintoma5">Fatiga</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Tos" id="sintoma6">
-                            <label class="form-check-label" for="sintoma6">Tos</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Congestión nasal" id="sintoma7">
-                            <label class="form-check-label" for="sintoma7">Congestión nasal</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Estornudos" id="sintoma8">
-                            <label class="form-check-label" for="sintoma8">Estornudos</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Dolor de garganta" id="sintoma9">
-                            <label class="form-check-label" for="sintoma9">Dolor de garganta</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Flema" id="sintoma10">
-                            <label class="form-check-label" for="sintoma10">Flema</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Dificultad para respirar"
-                                id="sintoma11">
-                            <label class="form-check-label" for="sintoma11">Dificultad para respirar</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Dolor en el pecho" id="sintoma12">
-                            <label class="form-check-label" for="sintoma12">Dolor en el pecho</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Sed excesiva" id="sintoma13">
-                            <label class="form-check-label" for="sintoma13">Sed excesiva</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox"
-                                value="Aumento en la frecuencia de la micción" id="sintoma14">
-                            <label class="form-check-label" for="sintoma14">Aumento en la frecuencia de la
-                                micción</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Visión borrosa" id="sintoma15">
-                            <label class="form-check-label" for="sintoma15">Visión borrosa</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Heridas que tardan en cicatrizar"
-                                id="sintoma16">
-                            <label class="form-check-label" for="sintoma16">Heridas que tardan en cicatrizar</label>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Pérdida del olfato" id="sintoma17">
-                            <label class="form-check-label" for="sintoma17">Pérdida del olfato</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Pérdida del gusto" id="sintoma18">
-                            <label class="form-check-label" for="sintoma18">Pérdida del gusto</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Picazón en los ojos" id="sintoma19">
-                            <label class="form-check-label" for="sintoma19">Picazón en los ojos</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Ojos llorosos" id="sintoma20">
-                            <label class="form-check-label" for="sintoma20">Ojos llorosos</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Picor en la garganta" id="sintoma21">
-                            <label class="form-check-label" for="sintoma21">Picor en la garganta</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Sensibilidad a la luz"
-                                id="sintoma22">
-                            <label class="form-check-label" for="sintoma22">Sensibilidad a la luz</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Náuseas" id="sintoma23">
-                            <label class="form-check-label" for="sintoma23">Náuseas</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Vómitos" id="sintoma24">
-                            <label class="form-check-label" for="sintoma24">Vómitos</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Aura visual" id="sintoma25">
-                            <label class="form-check-label" for="sintoma25">Aura visual</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Erupción con picazón" id="sintoma26">
-                            <label class="form-check-label" for="sintoma26">Erupción con picazón</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Cansancio" id="sintoma27">
-                            <label class="form-check-label" for="sintoma27">Cansancio</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Pérdida de apetito" id="sintoma28">
-                            <label class="form-check-label" for="sintoma28">Pérdida de apetito</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Diarrea" id="sintoma29">
-                            <label class="form-check-label" for="sintoma29">Diarrea</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="Dolor abdominal" id="sintoma30">
-                            <label class="form-check-label" for="sintoma30">Dolor abdominal</label>
-                        </div>
-                    </div>
+            <div class="personal-info">
+                <div class="form-group">
+                    <label for="edad">Edad:</label>
+                    <input type="number" class="form-control" id="edad" name="edad" placeholder="Ingrese su edad"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="genero">Género:</label>
+                    <select class="form-control" id="genero" name="genero" required>
+                        <option value="">Seleccione su género</option>
+                        <option value="hombre">Hombre</option>
+                        <option value="mujer">Mujer</option>
+                        <option value="otro">Otro</option>
+                    </select>
                 </div>
             </div>
+
+            <!-- Campo de búsqueda -->
+            <div class="form-group">
+                <label for="busquedaSintoma">Buscar síntoma:</label>
+                <input type="text" class="form-control" id="busquedaSintoma"
+                    placeholder="Escriba para buscar un síntoma...">
+            </div>
+
+            <!-- Lista de síntomas -->
+            <div class="form-group">
+                <label for="sintomas">Seleccione sus síntomas:</label>
+                <div class="symptoms-container" id="listaSintomas">
+                    {% for sintoma in sintomas %}
+                    <div class="symptom-item">
+                        <input class="form-check-input" type="checkbox" value="{{ sintoma }}"
+                            id="sintoma{{ loop.index }}">
+                        <label class="form-check-label" for="sintoma{{ loop.index }}">{{ sintoma }}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
             <button type="submit" class="btn btn-primary mt-3">Obtener Diagnóstico</button>
         </form>
         <div id="resultado" class="mt-4 animate__animated animate__fadeIn" style="display: none;">
@@ -227,19 +146,35 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
+            // Función para eliminar tildes y normalizar texto
+            function normalizarTexto(texto) {
+                return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            }
+
+            // Filtrar síntomas
+            $('#busquedaSintoma').on('input', function () {
+                let searchTerm = normalizarTexto($(this).val());
+                $('#listaSintomas .symptom-item').each(function () {
+                    let label = normalizarTexto($(this).find('.form-check-label').text());
+                    $(this).toggle(label.includes(searchTerm));
+                });
+            });
+
+            // Enviar formulario
             $('#consultaForm').on('submit', function (event) {
                 event.preventDefault();
                 let sintomas = [];
                 $('input[type="checkbox"]:checked').each(function () {
-                    console.log($(this).val());
                     sintomas.push($(this).val());
                 });
                 let sintomasTexto = sintomas.join(', ');
+                let edad = $('#edad').val();
+                let genero = $('#genero').val();
 
                 $.ajax({
                     url: '/diagnosticar',
                     type: 'POST',
-                    data: { sintomas: sintomasTexto },
+                    data: { sintomas: sintomasTexto, edad: edad, genero: genero },
                     success: function (response) {
                         if (response.error) {
                             alert(response.error);
