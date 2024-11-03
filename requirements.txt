@@ -1,4 +1,6 @@
 Flask
 mysql-connector-python
+psycopg2
+python-dotenv
 requests
 beautifulsoup4

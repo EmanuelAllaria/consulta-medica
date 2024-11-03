@@ -6,6 +6,9 @@ import re
 import mysql.connector
 import psycopg2
 from psycopg2 import connect
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
