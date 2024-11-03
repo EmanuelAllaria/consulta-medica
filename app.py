@@ -1,23 +1,35 @@
 from flask import Flask, request, jsonify, render_template
-import mysql.connector
 import os
 import requests
 from bs4 import BeautifulSoup
 import re
+import mysql.connector
+import psycopg2
+from psycopg2 import connect
 
 app = Flask(__name__)
 
-# Conectar a la base de datos MySQL
+# Configuración de base de datos basada en el entorno
+db_connection = None
+cursor = None
+
 try:
-    db_connection = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="consulta_medica"
-    )
+    if os.getenv("FLASK_ENV") == "production":
+        # Conexión para PostgreSQL usando la URL en producción
+        db_connection = connect("postgresql://emanuel_allaria:ScwDEklhDwyHTbX0VYIqZk59WaWNjwLM@dpg-csjc9prtq21c73dbn2tg-a/consulta_medica")
+        print("Conexión a la base de datos PostgreSQL exitosa.")
+    else:
+        # Conexión para MySQL en desarrollo
+        db_connection = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database="consulta_medica"
+        )
+        print("Conexión a la base de datos MySQL exitosa.")
+
     cursor = db_connection.cursor()
-    print("Conexión a la base de datos MySQL exitosa.")
-except mysql.connector.Error as err:
+except (mysql.connector.Error, psycopg2.Error) as err:
     print(f"Error al conectar a la base de datos: {err}")
 
 def obtener_datos_desde_bd():
