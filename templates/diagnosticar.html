@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta Médica en Línea - Diagnóstico Rápido y Preciso | Consulta de Síntomas en Línea</title>
+    <meta name="description"
+        content="Consulta médica en línea para obtener un diagnóstico rápido y preciso. Seleccione sus síntomas y reciba recomendaciones de tratamiento inmediatas. Obtenga el mejor diagnóstico médico en línea con recomendaciones confiables de salud.">
+    <meta name="keywords"
+        content="consulta médica en línea, diagnóstico médico, síntomas, tratamiento, salud, fiebre, dolor de cabeza, tos, dolor abdominal, consulta médica gratis, consulta de salud en línea, diagnóstico rápido, atención médica en línea, consulta de salud, telemedicina, dificultad para respirar, mareo, náuseas, escalofríos, sudoración, dolor muscular, fatiga, erupción cutánea, congestión nasal, fiebre alta, dolor de oídos, dolor en las articulaciones">
+    <meta property="og:title" content="Consulta Médica en Línea - Diagnóstico Rápido y Preciso">
+    <meta property="og:description"
+        content="Consulta médica en línea para obtener un diagnóstico rápido y preciso. Seleccione sus síntomas y reciba recomendaciones de tratamiento inmediatas.">
+    <meta property="og:url" content="https://consulta-medica.onrender.com">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Consulta Médica en Línea - Diagnóstico Rápido y Preciso">
+    <meta name="twitter:description"
+        content="Obtenga un diagnóstico médico en línea rápido y preciso seleccionando sus síntomas.">
+    <link rel="canonical" href="https://consulta-medica.onrender.com">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        body {
+            background-image: linear-gradient(to right, #6a11cb, #2575fc);
+            font-family: 'Roboto', sans-serif;
+            color: #ffffff;
+        }
+
+        .container {
+            margin-top: 50px;
+            max-width: 700px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 1s;
+            color: #333333;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            border: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+        }
+
+        .form-check-input:checked {
+            background-color: #2575fc;
+            border-color: #6a11cb;
+        }
+
+        /* Nueva estructura para la lista de síntomas */
+        .symptoms-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .symptom-item {
+            flex: 0 0 48%;
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-check-label {
+            margin-left: 10px;
+        }
+
+        .personal-info {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Consulta Médica en Línea</h1>
+        <h2 class="text-center mb-4">Diagnóstico Rápido y Preciso</h2>
+        <p class="text-center">Seleccione sus síntomas para recibir un diagnóstico preliminar y recomendaciones de
+            tratamiento inmediato.</p>
+        <form id="consultaForm">
+            <div class="personal-info">
+                <div class="form-group">
+                    <label for="edad">Edad:</label>
+                    <input type="number" class="form-control" id="edad" name="edad" placeholder="Ingrese su edad"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="genero">Género:</label>
+                    <select class="form-control" id="genero" name="genero" required>
+                        <option value="">Seleccione su género</option>
+                        <option value="hombre">Hombre</option>
+                        <option value="mujer">Mujer</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Campo de búsqueda -->
+            <div class="form-group">
+                <label for="busquedaSintoma">Buscar síntoma:</label>
+                <input type="text" class="form-control" id="busquedaSintoma"
+                    placeholder="Escriba para buscar un síntoma...">
+            </div>
+
+            <!-- Lista de síntomas -->
+            <div class="form-group">
+                <label for="sintomas">Seleccione sus síntomas:</label>
+                <div class="symptoms-container" id="listaSintomas">
+                    {% for sintoma in sintomas %}
+                    <div class="symptom-item">
+                        <input class="form-check-input" type="checkbox" value="{{ sintoma }}"
+                            id="sintoma{{ loop.index }}">
+                        <label class="form-check-label" for="sintoma{{ loop.index }}">{{ sintoma }}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Obtener Diagnóstico</button>
+        </form>
+        <div id="resultado" class="mt-4 animate__animated animate__fadeIn" style="display: none;">
+            <h4>Diagnóstico:</h4>
+            <p id="diagnostico"></p>
+            <h4>Tratamiento Sugerido:</h4>
+            <p id="tratamiento"></p>
+            <h4>¿Que es esta enfermedad?</h4>
+            <p id="descripcion"></p>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Función para eliminar tildes y normalizar texto
+            function normalizarTexto(texto) {
+                return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            }
+
+            // Filtrar síntomas
+            $('#busquedaSintoma').on('input', function () {
+                let searchTerm = normalizarTexto($(this).val());
+                $('#listaSintomas .symptom-item').each(function () {
+                    let label = normalizarTexto($(this).find('.form-check-label').text());
+                    $(this).toggle(label.includes(searchTerm));
+                });
+            });
+
+            // Enviar formulario
+            $('#consultaForm').on('submit', function (event) {
+                event.preventDefault();
+                let sintomas = [];
+                $('input[type="checkbox"]:checked').each(function () {
+                    sintomas.push($(this).val());
+                });
+                let sintomasTexto = sintomas.join(', ');
+                let edad = $('#edad').val();
+                let genero = $('#genero').val();
+
+                $.ajax({
+                    url: '/diagnosticar',
+                    type: 'POST',
+                    data: { sintomas: sintomasTexto, edad: edad, genero: genero },
+                    success: function (response) {
+                        if (response.error) {
+                            alert(response.error);
+                        } else {
+                            $('#diagnostico').text(response.diagnostico);
+                            $('#tratamiento').text(response.tratamiento);
+                            $('#descripcion').text(response.descripcion);
+                            $('#resultado').show();
+                        }
+                    },
+                    error: function () {
+                        alert('Error al procesar la solicitud. Inténtelo de nuevo.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
