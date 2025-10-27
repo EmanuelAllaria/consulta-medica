@@ -17,7 +17,7 @@ engine = None
 try:
     if os.getenv("FLASK_ENV") == "production":
         # Conexión para PostgreSQL usando SQLAlchemy con pg8000
-        db_url = "postgresql+pg8000://emanuel_allaria:ScwDEklhDwyHTbX0VYIqZk59WaWNjwLM@dpg-csjc9prtq21c73dbn2tg-a/consulta_medica"
+        db_url = "mysql://uhec0ql2uxdhqwh5:LkD2wzYJWtlPMTFwyulw@bi5mg5phvxqwqurxnttc-mysql.services.clever-cloud.com:3306/bi5mg5phvxqwqurxnttc"
     else:
         # Conexión para MySQL en desarrollo
         db_url = "mysql+mysqlconnector://root:@localhost/consulta_medica"
